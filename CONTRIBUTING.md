@@ -1,98 +1,69 @@
-# Contributing to VALIPRECISION
+# Contributing to VALIPRECISION ($VPX)
 
-Thank you for your interest in contributing to **VALIPRECISION ($VPX)** — part of the [AXIOLEDGER](https://github.com/axioledger) ecosystem.
+Thank you for contributing to **valiprecision** — the **Consensus & Node Staking** pillar of the [AXIOLEDGER](https://github.com/axioledger) ecosystem.
 
-> **Immutable Principle (Article VI):** All core source code of AXIOLEDGER — including consensus engine, ZK circuits, and core smart contracts — shall always be public and auditable. There are no "black boxes" in public financial infrastructure.
+## Clean-Room Engineering
 
-## Getting Started
+Absolutely no copying of copyrighted source code. All contributions must comply with the open-source license standards (MIT / Apache-2.0 for SDKs; BSL 1.1 for core contracts).
 
-### Prerequisites
+## GPG Signing (Required)
 
-- **Rust 1.78+** (for consensus / node components)
-- **Node.js v20+** (for SDK / API components)
-- **Git** with GPG signing configured
-
-### Fork & Clone
+All commits and pull requests **must** be signed with a GPG key to protect the software supply chain:
 
 ```bash
-# Fork via GitHub UI, then:
-git clone https://github.com/<your-username>/<repo>.git
-cd <repo>
-git remote add upstream https://github.com/valiprecision/<repo>.git
+git config --global commit.gpgsign true
+git config --global user.signingkey YOUR_KEY_ID
 ```
 
-### Branch Naming
+Unsigned commits to `main`, `ledger`, or `dev` branches will be automatically rejected by branch protection rules.
 
-Always branch from `dev`:
+## Repository & Branch Naming
 
-```bash
-git checkout dev
-git pull upstream dev
-git checkout -b feat/your-feature-name
-```
+All repositories follow the `vpx-*` prefix convention:
+- Example repos: `vpx-node-client, vpx-pos-engine`
 
+Branch naming:
 | Prefix | Use |
 |---|---|
-| `feat/` | New feature |
-| `fix/` | Bug fix |
-| `docs/` | Documentation |
-| `security/` | Security patch |
-| `chore/` | Build/tooling |
+| `feat/vpx-*` | New feature |
+| `fix/vpx-*` | Bug fix |
+| `security/vpx-*` | Security patch — requires Security Auditor approval |
+| `docs/vpx-*` | Documentation update |
+
+Always branch from `dev`:
+```bash
+git checkout dev && git pull upstream dev
+git checkout -b feat/vpx-your-feature
+```
 
 ## Development Standards
 
-### Rust Components
-
+**Rust (consensus/node components):**
 ```bash
-cargo build --release
 cargo test --all
 cargo clippy -- -D warnings
 cargo fmt --check
 ```
 
-### TypeScript / Node.js Components
-
+**TypeScript/Node.js (`@valiprecision/*` packages):**
 ```bash
-npm install
 npm test
 npx eslint . --ext .ts,.tsx
 npx tsc --noEmit
 ```
 
-## Commit Convention
-
-Follow [Conventional Commits](https://www.conventionalcommits.org/):
-
-```
-feat(vpx): add epoch rotation logic for ZK-OBFT
-fix(sqx): resolve AF_XDP buffer overflow on high load
-docs(api): update endpoint schema for /vp/validators/reputation
-security(vrq): patch nullifier collision in ZK-DID circuit
-```
-
 ## Pull Request Process
 
-1. Ensure all tests pass: `cargo test --all` / `npm test`
-2. Run linter: `cargo clippy -- -D warnings` / `eslint`
-3. Update documentation if behavior changes
-4. Reference related issues in the PR description
-5. Await review from **≥ 2 core maintainers** before merge
-6. PRs to `main`/`ledger` branches require **≥ 1 Security & FIM Auditor** approval for any cryptographic or consensus changes
+1. All tests must pass
+2. GPG signature required on all commits
+3. Reference related issues
+4. Minimum **2 core maintainer** approvals
+5. Cryptographic / consensus changes require **Security & FIM Auditor** approval
 
-## Security Contributions
+## Security Issues
 
-For security vulnerabilities, **do NOT open a public issue**. Follow the [Security Policy](SECURITY.md) for responsible disclosure.
-
-## Design System
-
-All UI contributions **must** use:
-- Icons from `asset/icon/` — no external icon sources
-- Design tokens from `design-system/tokens/` — no hardcoded color values
-- See [`design-system/README.md`](https://github.com/axioledger/design-system) for full guidelines
-
-## Code of Conduct
-
-By contributing, you agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md).
+**Do NOT open public issues for security vulnerabilities.**  
+Follow the [Security Policy](SECURITY.md) — use GitHub private security advisories.
 
 ---
 
