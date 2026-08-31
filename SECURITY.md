@@ -10,60 +10,40 @@
 
 **CRITICAL: Do NOT open a public GitHub Issue for security vulnerabilities.**
 
-The AXIOLEDGER ecosystem handles financial infrastructure and cryptographic systems. Public disclosure before a patch is deployed could put user funds and network integrity at risk.
+### Contact
 
-### Responsible Disclosure Process
+- **GitHub Private Advisory:** `https://github.com/valiprecision/.github/security/advisories/new`
+- **Security Email:** `security@axqprotocol.axq`
+- **Response:** Acknowledgement within 48h · Patch within 90 days (Critical: 30 days)
 
-1. **Contact:** Send a private report to the maintainer via GitHub private security advisory:
-   `https://github.com/valiprecision/.github/security/advisories/new`
+### What to Include
 
-2. **Include in your report:**
-   - Affected component and version
-   - Step-by-step reproduction instructions
-   - Estimated severity (Critical / High / Medium / Low)
-   - Suggested fix (if available)
-
-3. **Response timeline:**
-   - **Acknowledgement:** Within 48 hours
-   - **Initial assessment:** Within 7 days
-   - **Patch & disclosure:** Within 90 days (Critical: 30 days)
-
-### What NOT to do
-
-- Do not publicly disclose the vulnerability before a fix is released
-- Do not test exploits on mainnet or testnet environments
-- Do not access, modify, or exfiltrate data beyond what is needed to demonstrate the vulnerability
-
-## Bug Bounty
-
-Critical vulnerabilities that could compromise:
-- The ZK-OBFT consensus mechanism (`$VPX`)
-- Private key extraction from AXIO Vault
-- Double-spending or fund theft on any Pillar
-- ZK-DID nullifier collision enabling identity duplication
-
-...are eligible for rewards from the **Treasury DAO Bug Bounty Fund**.
-
-Reward levels are determined by the Security & FIM Auditor council based on CVSS score and potential impact.
+- Affected component, version, and ANS domain (`.vpx`)
+- Step-by-step reproduction
+- CVSS severity estimate
+- Suggested fix if available
 
 ## Security Architecture
 
-VALIPRECISION is part of the AXIOLEDGER ecosystem which implements:
+**VALIPRECISION ($VPX)** implements the following security measures:
 
-- **ZK-SNARKs** consensus proofs (284-byte π, O(1) verification)
-- **Instant Slashing** — 100% stake burn on double-signing, same block
-- **Post-Quantum Signatures** — CRYSTALS-Dilithium (NIST Level 5)
-- **Supply Chain Scanner** — 24/7 npm/DApp auditing at Protocol level
-- **ZK-DID** — anonymous KYC with Regulator Gateway (5/7 multisig)
-- **TLS 1.3** on all API endpoints — cert rotation every 24h
+- **Sandboxed Environment:** All core application processes are isolated in the `./` virtual partition with strict RBAC/IAM permissions (separate from `/etc`, `/var`, `/bin`)
+- **Cryptographic Verification:** Hash checksum (SHA-256) + digital signatures on all deployments — prevents Typosquatting of `@valiprecision/*` npm packages
+- **PKI Infrastructure:** TLS certificates issued by Axioledger Internal CA (`axioledger-root-ca.crt`) — covers all `.vpx` ANS domains
+- **File Integrity Monitoring (FIM):** Automated integrity checks every 24h via `./core/scripts/integrity-check.js`
+- **GPG-Signed Commits:** All commits to protected branches require GPG signature
 
-## Contact
+## Bug Bounty
 
-- **Security Email:** via GitHub private advisory (preferred)
-- **Maintainer:** `315885655+davictran76@users.noreply.github.com`
-- **PGP:** Available on request
+Eligible vulnerabilities (rewards from Treasury DAO):
+- ZK-circuit exploits or nullifier collisions
+- Private key extraction from any AXIO Vault component
+- Consensus manipulation in ZK-OBFT (`vpx` layer)
+- Supply chain attacks on `@valiprecision/*` npm packages
+
+Reward level determined by CVSS score and potential financial impact.
 
 ---
 
-*VALIPRECISION — AXIOLEDGER Ecosystem · Genesis v0.0.0*
-*Node: `axioledger-devnode` · `192.168.0.47`*
+*VALIPRECISION — AXIOLEDGER Ecosystem · Genesis v0.0.0*  
+*Node: `axioledger-devnode` · `192.168.0.47` · PKI: Axioledger Internal CA*
